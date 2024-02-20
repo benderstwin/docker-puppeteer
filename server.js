@@ -1,10 +1,27 @@
 
 const express = require('express');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+// add stealth plugin and use defaults (all evasion techniques)
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+puppeteer.use(StealthPlugin())
 const app = express();
 const port = 3120;
+const path = require('path');
+
 
 app.use(express.json());
+
+
+
+// Serve the HTML file containing the iframe
+app.get('/dextoolsjngl', (req, res) => {
+  res.sendFile(__dirname + '/dextools-widget-jngl.html');
+});
+
+app.get('/tradingview', (req, res) => {
+  res.sendFile(path.join(__dirname, 'tradingview-widget.html'));
+});
+
 
 app.post('/screenshot', async (req, res) => {
   const { url, selector } = req.body; // You can pass a selector to wait for as part of the request

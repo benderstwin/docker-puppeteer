@@ -1,4 +1,7 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+// add stealth plugin and use defaults (all evasion techniques)
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+puppeteer.use(StealthPlugin())
 
 (async () => {
   // Use an environment variable for the WebSocket endpoint
@@ -11,6 +14,12 @@ const puppeteer = require('puppeteer');
     });
 
     const page = await browser.newPage();
+        // Set the desired viewport size
+        await page.setViewport({
+          width: 1280, // or any other width you want
+          height: 720, // or any other height you want
+          deviceScaleFactor: 1,
+        });
     await page.goto('https://example.com');
     await page.screenshot({ path: 'example.png' });
 
